@@ -1,0 +1,1481 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1200,
+  "model": {
+    "culture": "ru-RU",
+    "dataSources": [
+      {
+        "name": "SqlServer 10.2.1.92 reports_abom",
+        "connectionString": "Provider=SQLNCLI11;Data Source=10.2.1.92;Initial Catalog=reports_abom;Integrated Security=SSPI;Persist Security Info=false",
+        "impersonationMode": "impersonateAccount",
+        "account": "CORP\\pgbaranov",
+        "annotations": [
+          {
+            "name": "ConnectionEditUISource",
+            "value": "SqlServer"
+          }
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "price_product",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "title",
+            "dataType": "string",
+            "sourceColumn": "title",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "article",
+            "dataType": "string",
+            "sourceColumn": "article",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "zone_id",
+            "dataType": "int64",
+            "sourceColumn": "zone_id",
+            "sourceProviderType": "SmallInt"
+          },
+          {
+            "name": "brand_title",
+            "dataType": "string",
+            "sourceColumn": "brand_title",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "contractor_id",
+            "dataType": "int64",
+            "sourceColumn": "contractor_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "standard_id",
+            "dataType": "int64",
+            "sourceColumn": "standard_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "price",
+            "dataType": "double",
+            "sourceColumn": "price",
+            "sourceProviderType": "Decimal"
+          },
+          {
+            "name": "avg_price",
+            "dataType": "double",
+            "sourceColumn": "avg_price",
+            "sourceProviderType": "Decimal"
+          },
+          {
+            "name": "min_price",
+            "dataType": "double",
+            "sourceColumn": "min_price",
+            "sourceProviderType": "Decimal"
+          },
+          {
+            "name": "max_price",
+            "dataType": "double",
+            "sourceColumn": "max_price",
+            "sourceProviderType": "Decimal"
+          },
+          {
+            "name": "quantity_in_stock",
+            "dataType": "int64",
+            "sourceColumn": "quantity_in_stock",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "quantity_hidden_in_stock",
+            "dataType": "int64",
+            "sourceColumn": "quantity_hidden_in_stock",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "brand_id",
+            "dataType": "int64",
+            "sourceColumn": "brand_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "updated",
+            "dataType": "dateTime",
+            "sourceColumn": "updated",
+            "formatString": "General Date",
+            "sourceProviderType": "Date"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "price_product",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "SELECT ",
+                "product.id AS id, ",
+                "product.title AS title, ",
+                "product.article AS article,",
+                "std.zone_id AS zone_id,",
+                "std.brand_title AS brand_title,",
+                "ct.id AS contractor_id,",
+                "std.id AS standard_id,",
+                "pli.price,",
+                "AVG(pli.price) AS avg_price,",
+                "MIN(pli.price) AS min_price,",
+                "MAX(pli.price) AS max_price,",
+                "reserve.quantity AS quantity_in_stock,",
+                "reserve.quantity_hidden AS quantity_hidden_in_stock,",
+                "std.brand_id AS brand_id,",
+                "product.updated AS updated",
+                "FROM ",
+                "reports_abom.dbo.product AS product",
+                "LEFT JOIN reports_abom.dbo.standard AS std",
+                "ON product.standard_id = std.id",
+                "LEFT JOIN reports_abom.dbo.contractor AS ct",
+                "ON product.contractor_id = ct.id",
+                "LEFT JOIN reports_abom.dbo.price_list_item_actual AS pli",
+                "ON std.id = pli.standard_id",
+                "LEFT JOIN reports_abom.dbo.product_reserve AS reserve",
+                "ON reserve.product_id = product.id",
+                "GROUP BY product.id, product.title, product.article, std.zone_id, std.brand_title, ct.id, std.id, reserve.quantity, reserve.quantity_hidden, std.brand_id, product.updated, pli.price",
+                ";"
+              ],
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT ",
+                  "product.id AS id, ",
+                  "product.title AS title, ",
+                  "product.article AS article,",
+                  "std.zone_id AS zone_id,",
+                  "std.brand_title AS brand_title,",
+                  "ct.id AS contractor_id,",
+                  "std.id AS standard_id,",
+                  "pli.price,",
+                  "AVG(pli.price) AS avg_price,",
+                  "MIN(pli.price) AS min_price,",
+                  "MAX(pli.price) AS max_price,",
+                  "reserve.quantity AS quantity_in_stock,",
+                  "reserve.quantity_hidden AS quantity_hidden_in_stock,",
+                  "std.brand_id AS brand_id,",
+                  "product.updated AS updated",
+                  "FROM ",
+                  "reports_abom.dbo.product AS product",
+                  "LEFT JOIN reports_abom.dbo.standard AS std",
+                  "ON product.standard_id = std.id",
+                  "LEFT JOIN reports_abom.dbo.contractor AS ct",
+                  "ON product.contractor_id = ct.id",
+                  "LEFT JOIN reports_abom.dbo.price_list_item_actual AS pli",
+                  "ON std.id = pli.standard_id",
+                  "LEFT JOIN reports_abom.dbo.product_reserve AS reserve",
+                  "ON reserve.product_id = product.id",
+                  "GROUP BY product.id, product.title, product.article, std.zone_id, std.brand_title, ct.id, std.id, reserve.quantity, reserve.quantity_hidden, std.brand_id, product.updated, pli.price",
+                  ";</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "SELECT ",
+              "product.id AS id, ",
+              "product.title AS title, ",
+              "product.article AS article,",
+              "std.zone_id AS zone_id,",
+              "std.brand_title AS brand_title,",
+              "ct.id AS contractor_id,",
+              "std.id AS standard_id,",
+              "pli.price,",
+              "AVG(pli.price) AS avg_price,",
+              "MIN(pli.price) AS min_price,",
+              "MAX(pli.price) AS max_price,",
+              "reserve.quantity AS quantity_in_stock,",
+              "reserve.quantity_hidden AS quantity_hidden_in_stock,",
+              "std.brand_id AS brand_id,",
+              "product.updated AS updated",
+              "FROM ",
+              "reports_abom.dbo.product AS product",
+              "LEFT JOIN reports_abom.dbo.standard AS std",
+              "ON product.standard_id = std.id",
+              "LEFT JOIN reports_abom.dbo.contractor AS ct",
+              "ON product.contractor_id = ct.id",
+              "LEFT JOIN reports_abom.dbo.price_list_item_actual AS pli",
+              "ON std.id = pli.standard_id",
+              "LEFT JOIN reports_abom.dbo.product_reserve AS reserve",
+              "ON reserve.product_id = product.id",
+              "GROUP BY product.id, product.title, product.article, std.zone_id, std.brand_title, ct.id, std.id, reserve.quantity, reserve.quantity_hidden, std.brand_id, product.updated, pli.price",
+              ";"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "price_product"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT ",
+              "product.id AS id, ",
+              "product.title AS title, ",
+              "product.article AS article,",
+              "std.zone_id AS zone_id,",
+              "std.brand_title AS brand_title,",
+              "ct.id AS contractor_id,",
+              "std.id AS standard_id,",
+              "pli.price,",
+              "AVG(pli.price) AS avg_price,",
+              "MIN(pli.price) AS min_price,",
+              "MAX(pli.price) AS max_price,",
+              "reserve.quantity AS quantity_in_stock,",
+              "reserve.quantity_hidden AS quantity_hidden_in_stock,",
+              "std.brand_id AS brand_id,",
+              "product.updated AS updated",
+              "FROM ",
+              "reports_abom.dbo.product AS product",
+              "LEFT JOIN reports_abom.dbo.standard AS std",
+              "ON product.standard_id = std.id",
+              "LEFT JOIN reports_abom.dbo.contractor AS ct",
+              "ON product.contractor_id = ct.id",
+              "LEFT JOIN reports_abom.dbo.price_list_item_actual AS pli",
+              "ON std.id = pli.standard_id",
+              "LEFT JOIN reports_abom.dbo.product_reserve AS reserve",
+              "ON reserve.product_id = product.id",
+              "GROUP BY product.id, product.title, product.article, std.zone_id, std.brand_title, ct.id, std.id, reserve.quantity, reserve.quantity_hidden, std.brand_id, product.updated, pli.price",
+              ";</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Меры",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Value",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Value]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": "GENERATESERIES(1, 101,1)"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "отклонения",
+            "expression": "DIVIDE('Меры'[Max ОО],'Меры'[Min ОО])-1"
+          },
+          {
+            "name": "% отклонения от ОО max",
+            "expression": " 'Меры'[Max ОО]/'Меры'[Цена производителя]-1"
+          },
+          {
+            "name": "% отклонения от ОО min",
+            "expression": " 'Меры'[Min ОО]/'Меры'[Цена производителя] - 1"
+          },
+          {
+            "name": "% перекрытия",
+            "expression": [
+              "",
+              "    var SKU_order = DISTINCTCOUNT('Заказы-продажи'[standard_id])",
+              "    return [CouProdAlpha]/SKU_order"
+            ]
+          },
+          {
+            "name": "cou_contractor",
+            "expression": " DISTINCTCOUNT(price_product[contractor_id])"
+          },
+          {
+            "name": "CountPrice",
+            "expression": " COUNT(price_product[avg_price])"
+          },
+          {
+            "name": "CountRedZone",
+            "expression": " CALCULATE(COUNTA(price_product[article]),'price_product'[zone_id] = 4)"
+          },
+          {
+            "name": "CountZone",
+            "expression": " CALCULATE(DISTINCTCOUNT(price_product[article]),OR('price_product'[zone_id] = 1,'price_product'[zone_id] = 3))"
+          },
+          {
+            "name": "CouPriceSupp",
+            "expression": " CALCULATE(DISTINCTCOUNT(cat_standard[standard-product_standard_id]),FILTER('price_product',AND('price_product'[contractor_id]<>2,'price_product'[quantity_in_stock]>0)))"
+          },
+          {
+            "name": "CouProdAlpha",
+            "expression": " CALCULATE(DISTINCTCOUNT('cat_standard'[standard-product_standard_id]),FILTER('price_product',AND('price_product'[contractor_id] = 2,'price_product'[quantity_in_stock] <> BLANK())))"
+          },
+          {
+            "name": "CouShipment",
+            "expression": " CALCULATE(COUNTA('Заказы-продажи'[order_date]),FILTER('Заказы-продажи','Заказы-продажи'[type_document] = \"SHIPMENT\"))"
+          },
+          {
+            "name": "Distinct SKU",
+            "expression": " DISTINCTCOUNT('price_product'[id])"
+          },
+          {
+            "name": "Max ОО",
+            "expression": " CALCULATE(MAX('price_product'[min_price]),'contractor'[discriminator] = \"distributor\")"
+          },
+          {
+            "name": "Min ОО",
+            "expression": " CALCULATE(MIN('price_product'[min_price]), 'contractor'[discriminator] = \"distributor\", 'contractor'[id]<> 2 )"
+          },
+          {
+            "name": "SKU_order",
+            "expression": " DISTINCTCOUNT('Заказы-продажи'[standard_id])"
+          },
+          {
+            "name": "SKU_shipment",
+            "expression": " CALCULATE(DISTINCTCOUNT('Заказы-продажи'[standard_id]),'Заказы-продажи'[type_document] = \"SHIPMENT\")"
+          },
+          {
+            "name": "Наценка Альфа",
+            "expression": " DIVIDE('Меры'[Цена Альфа],'Меры'[Цена производителя],0)-1"
+          },
+          {
+            "name": "Преимущество Альфа",
+            "expression": [
+              " ",
+              "var a = DIVIDE([Min ОО], [Цена Альфа])",
+              "return a - 1"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%"
+          },
+          {
+            "name": "Цена Альфа",
+            "expression": " CALCULATE(MIN('price_product'[min_price]),'price_product'[contractor_id] = 2)"
+          },
+          {
+            "name": "Цена производителя",
+            "expression": " CALCULATE(MIN('price_product'[min_price]),'contractor'[discriminator]=\"supplier\")"
+          }
+        ]
+      },
+      {
+        "name": "cat_standard",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Standard-product_article",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Standard-product[article]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Standard-product_brand_title",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Standard-product[brand_title]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Standard-product_standard_id",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Standard-product[standard_id]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Cou_price",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Cou_price]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 2",
+            "source": {
+              "type": "calculated",
+              "expression": " FILTER(GROUPBY('Standard-product','Standard-product'[article],'Standard-product'[brand_title],'Standard-product'[standard_id],\"Cou_price\",COUNTAX(CURRENTGROUP(),'Standard-product'[product_id])),'Standard-product'[brand_title] <> BLANK())"
+            }
+          }
+        ]
+      },
+      {
+        "name": "standard_sign",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "title",
+            "dataType": "string",
+            "sourceColumn": "title",
+            "sourceProviderType": "WChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "standard_sign",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " SELECT [dbo].[standard_sign].* FROM [dbo].[standard_sign] ",
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[standard_sign].* FROM [dbo].[standard_sign] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "standard_sign"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "standard_sign_relation",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "standard_id",
+            "dataType": "int64",
+            "sourceColumn": "standard_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "sign_id",
+            "dataType": "int64",
+            "sourceColumn": "sign_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "created",
+            "dataType": "dateTime",
+            "sourceColumn": "created",
+            "formatString": "General Date",
+            "sourceProviderType": "DBTimeStamp"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "standard_sign_relation",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " SELECT [dbo].[standard_sign_relation].* FROM [dbo].[standard_sign_relation] ",
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[standard_sign_relation].* FROM [dbo].[standard_sign_relation] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "standard_sign_relation"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "contractor",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "title",
+            "dataType": "string",
+            "sourceColumn": "title",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "status_id",
+            "dataType": "int64",
+            "sourceColumn": "status_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "discriminator",
+            "dataType": "string",
+            "sourceColumn": "discriminator",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "rating",
+            "dataType": "int64",
+            "sourceColumn": "rating",
+            "sourceProviderType": "SmallInt"
+          },
+          {
+            "name": "contractor_subtype_id",
+            "dataType": "int64",
+            "sourceColumn": "contractor_subtype_id",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "contractor",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": "SELECT id, title,status_id, discriminator, rating, contractor_subtype_id FROM reports_abom.dbo.contractor ORDER BY id ASC;",
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT id, title,status_id, discriminator, rating, contractor_subtype_id FROM reports_abom.dbo.contractor ORDER BY id ASC;</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": "SELECT id, title,status_id, discriminator, rating, contractor_subtype_id FROM reports_abom.dbo.contractor ORDER BY id ASC;"
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "contractor"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT id, title,status_id, discriminator, rating, contractor_subtype_id FROM reports_abom.dbo.contractor ORDER BY id ASC;</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+          }
+        ]
+      },
+      {
+        "name": "contractor_subtype",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "title",
+            "dataType": "string",
+            "sourceColumn": "title",
+            "sourceProviderType": "WChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "contractor_subtype",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " SELECT [dbo].[contractor_subtype].* FROM [dbo].[contractor_subtype] ",
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[contractor_subtype].* FROM [dbo].[contractor_subtype] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "contractor_subtype"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "standard",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "title",
+            "dataType": "string",
+            "sourceColumn": "title",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "article",
+            "dataType": "string",
+            "sourceColumn": "article",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "barcode",
+            "dataType": "string",
+            "sourceColumn": "barcode",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "quantity_type_id",
+            "dataType": "int64",
+            "sourceColumn": "quantity_type_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "length",
+            "dataType": "double",
+            "sourceColumn": "length",
+            "sourceProviderType": "Double"
+          },
+          {
+            "name": "height",
+            "dataType": "double",
+            "sourceColumn": "height",
+            "sourceProviderType": "Double"
+          },
+          {
+            "name": "width",
+            "dataType": "double",
+            "sourceColumn": "width",
+            "sourceProviderType": "Double"
+          },
+          {
+            "name": "weight",
+            "dataType": "double",
+            "sourceColumn": "weight",
+            "sourceProviderType": "Double"
+          },
+          {
+            "name": "multiplicity",
+            "dataType": "int64",
+            "sourceColumn": "multiplicity",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "zone_id",
+            "dataType": "int64",
+            "sourceColumn": "zone_id",
+            "sourceProviderType": "SmallInt"
+          },
+          {
+            "name": "zone_title",
+            "dataType": "string",
+            "sourceColumn": "zone_title",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "original_sign",
+            "dataType": "double",
+            "sourceColumn": "original_sign",
+            "sourceProviderType": "Double"
+          },
+          {
+            "name": "file_id",
+            "dataType": "int64",
+            "sourceColumn": "file_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "description",
+            "dataType": "string",
+            "sourceColumn": "description",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "certificate_id",
+            "dataType": "int64",
+            "sourceColumn": "certificate_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "category_id",
+            "dataType": "int64",
+            "sourceColumn": "category_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "productor_id",
+            "dataType": "int64",
+            "sourceColumn": "productor_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "brand_id",
+            "dataType": "int64",
+            "sourceColumn": "brand_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "brand_title",
+            "dataType": "string",
+            "sourceColumn": "brand_title",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "contract_type",
+            "dataType": "string",
+            "sourceColumn": "contract_type",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "product_group",
+            "dataType": "string",
+            "sourceColumn": "product_group",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "twoness_id",
+            "dataType": "int64",
+            "sourceColumn": "twoness_id",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "parent_id_synonym",
+            "dataType": "int64",
+            "sourceColumn": "parent_id_synonym",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "created",
+            "dataType": "dateTime",
+            "sourceColumn": "created",
+            "formatString": "General Date",
+            "sourceProviderType": "DBTimeStamp"
+          },
+          {
+            "name": "updated",
+            "dataType": "dateTime",
+            "sourceColumn": "updated",
+            "formatString": "General Date",
+            "sourceProviderType": "DBTimeStamp"
+          },
+          {
+            "name": "deleted",
+            "dataType": "dateTime",
+            "sourceColumn": "deleted",
+            "formatString": "General Date",
+            "sourceProviderType": "DBTimeStamp"
+          },
+          {
+            "name": "created_by",
+            "dataType": "int64",
+            "sourceColumn": "created_by",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "int64",
+            "sourceColumn": "updated_by",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "is_belong_main_regulation",
+            "dataType": "int64",
+            "sourceColumn": "is_belong_main_regulation",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "reqzone_id",
+            "dataType": "int64",
+            "sourceColumn": "reqzone_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "is_has_recommended",
+            "dataType": "int64",
+            "sourceColumn": "is_has_recommended",
+            "sourceProviderType": "SmallInt"
+          },
+          {
+            "name": "is_marked",
+            "dataType": "boolean",
+            "sourceColumn": "is_marked",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "Boolean"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "standard",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " SELECT [dbo].[standard].* FROM [dbo].[standard] ",
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[standard].* FROM [dbo].[standard] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "standard"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "Standard-product",
+        "columns": [
+          {
+            "name": "product_id",
+            "dataType": "int64",
+            "sourceColumn": "product_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "standard_id",
+            "dataType": "int64",
+            "sourceColumn": "standard_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "brand_title",
+            "dataType": "string",
+            "sourceColumn": "brand_title",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "article",
+            "dataType": "string",
+            "sourceColumn": "article",
+            "sourceProviderType": "VarChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Standard-product",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "SELECT",
+                "prod.id as product_id,",
+                "prod.standard_id,",
+                "std.brand_title,",
+                "std.article",
+                "FROM reports_abom.dbo.product AS prod",
+                "LEFT JOIN reports_abom.dbo.standard AS std",
+                "ON prod.standard_id = std.id",
+                ";"
+              ],
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT",
+                  "prod.id as product_id,",
+                  "prod.standard_id,",
+                  "std.brand_title,",
+                  "std.article",
+                  "FROM reports_abom.dbo.product AS prod",
+                  "LEFT JOIN reports_abom.dbo.standard AS std",
+                  "ON prod.standard_id = std.id",
+                  ";</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "SELECT",
+              "prod.id as product_id,",
+              "prod.standard_id,",
+              "std.brand_title,",
+              "std.article",
+              "FROM reports_abom.dbo.product AS prod",
+              "LEFT JOIN reports_abom.dbo.standard AS std",
+              "ON prod.standard_id = std.id",
+              ";"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Standard-product"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT",
+              "prod.id as product_id,",
+              "prod.standard_id,",
+              "std.brand_title,",
+              "std.article",
+              "FROM reports_abom.dbo.product AS prod",
+              "LEFT JOIN reports_abom.dbo.standard AS std",
+              "ON prod.standard_id = std.id",
+              ";</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Storage",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "title",
+            "dataType": "string",
+            "sourceColumn": "title",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "status_id",
+            "dataType": "int64",
+            "sourceColumn": "status_id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "contractor_id",
+            "dataType": "int64",
+            "sourceColumn": "contractor_id",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Storage",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "SELECT",
+                "id,",
+                "title,",
+                "status_id,",
+                "contractor_id",
+                "FROM reports_abom.dbo.storage AS storage"
+              ],
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT",
+                  "id,",
+                  "title,",
+                  "status_id,",
+                  "contractor_id",
+                  "FROM reports_abom.dbo.storage AS storage</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "SELECT",
+              "id,",
+              "title,",
+              "status_id,",
+              "contractor_id",
+              "FROM reports_abom.dbo.storage AS storage"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Storage"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT",
+              "id,",
+              "title,",
+              "status_id,",
+              "contractor_id",
+              "FROM reports_abom.dbo.storage AS storage</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Заказы-продажи",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "order_date",
+            "dataType": "dateTime",
+            "sourceColumn": "order_date",
+            "formatString": "General Date",
+            "sourceProviderType": "Date"
+          },
+          {
+            "name": "date_document",
+            "dataType": "dateTime",
+            "sourceColumn": "date_document",
+            "formatString": "General Date",
+            "sourceProviderType": "Date"
+          },
+          {
+            "name": "type_document",
+            "dataType": "string",
+            "sourceColumn": "type_document",
+            "sourceProviderType": "VarChar"
+          },
+          {
+            "name": "standard_id",
+            "dataType": "int64",
+            "sourceColumn": "standard_id",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Заказы-продажи",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": [
+                "SELECT ",
+                "dor.id AS id,",
+                "dor.updated AS order_date,",
+                "doc.document_date AS date_document,",
+                "doc.type_of_document AS type_document,",
+                "std.id AS standard_id",
+                "",
+                "FROM reports_abom.dbo.document_order AS dor",
+                "",
+                "JOIN reports_abom.dbo.document_order_item AS dori",
+                "ON dor.id = dori.order_id",
+                "",
+                "JOIN reports_abom.dbo.contractor AS ct",
+                "ON dor.customer_contractor_id = ct.id",
+                "",
+                "JOIN reports_abom.dbo.contractor AS ct1",
+                "ON dor.supplier_contractor_id = ct1.id",
+                "",
+                "JOIN reports_abom.dbo.storage AS st",
+                "ON st.id = dor.customer_storage_id",
+                "",
+                "JOIN reports_abom.dbo.storage AS st1",
+                "ON st1.id = dor.supplier_storage_id",
+                "",
+                "LEFT JOIN reports_abom.dbo.standard AS std",
+                "ON std.id = dori.standard_id",
+                "",
+                "LEFT JOIN (SELECT",
+                "dsi.order_item_id AS document_id,",
+                "dsi.amount AS document_price,",
+                "dsi.created AS document_date,",
+                "dsi.quantity AS quantity_in_document,",
+                "'shipment' AS type_of_document",
+                "",
+                "FROM reports_abom.dbo.document_shipment_item AS dsi",
+                "",
+                "UNION",
+                "",
+                "SELECT",
+                "dcri.order_item_id AS document_id,",
+                "dcri.amount AS document_price,",
+                "dcri.created AS document_date,",
+                "dcri.quantity AS quantity_in_document,",
+                "'customer_refusal' AS type_of_document",
+                "",
+                "FROM reports_abom.dbo.document_customer_refusal_item AS dcri",
+                "",
+                "UNION",
+                "",
+                "SELECT",
+                "dsri.order_item_id AS document_id,",
+                "dsri.amount AS document_price,",
+                "dsri.created AS document_date,",
+                "dsri.quantity AS quantity_in_document,",
+                "'supplier_refusal' AS type_of_document",
+                "",
+                "FROM reports_abom.dbo.document_supplier_refusal_item AS dsri",
+                "",
+                "UNION",
+                "",
+                "SELECT",
+                "dori.id AS dociment_id,",
+                "dori.amount AS document_price,",
+                "dori.created AS document_date,",
+                "dori.quantity AS quantity_in_document,",
+                "'order' AS type_of_document",
+                "",
+                "FROM reports_abom.dbo.document_order_item AS dori",
+                ") AS doc",
+                "ON dori.id = doc.document_id;"
+              ],
+              "dataSource": "SqlServer 10.2.1.92 reports_abom"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT ",
+                  "dor.id AS id,",
+                  "dor.updated AS order_date,",
+                  "doc.document_date AS date_document,",
+                  "doc.type_of_document AS type_document,",
+                  "std.id AS standard_id",
+                  "",
+                  "FROM reports_abom.dbo.document_order AS dor",
+                  "",
+                  "JOIN reports_abom.dbo.document_order_item AS dori",
+                  "ON dor.id = dori.order_id",
+                  "",
+                  "JOIN reports_abom.dbo.contractor AS ct",
+                  "ON dor.customer_contractor_id = ct.id",
+                  "",
+                  "JOIN reports_abom.dbo.contractor AS ct1",
+                  "ON dor.supplier_contractor_id = ct1.id",
+                  "",
+                  "JOIN reports_abom.dbo.storage AS st",
+                  "ON st.id = dor.customer_storage_id",
+                  "",
+                  "JOIN reports_abom.dbo.storage AS st1",
+                  "ON st1.id = dor.supplier_storage_id",
+                  "",
+                  "LEFT JOIN reports_abom.dbo.standard AS std",
+                  "ON std.id = dori.standard_id",
+                  "",
+                  "LEFT JOIN (SELECT",
+                  "dsi.order_item_id AS document_id,",
+                  "dsi.amount AS document_price,",
+                  "dsi.created AS document_date,",
+                  "dsi.quantity AS quantity_in_document,",
+                  "'shipment' AS type_of_document",
+                  "",
+                  "FROM reports_abom.dbo.document_shipment_item AS dsi",
+                  "",
+                  "UNION",
+                  "",
+                  "SELECT",
+                  "dcri.order_item_id AS document_id,",
+                  "dcri.amount AS document_price,",
+                  "dcri.created AS document_date,",
+                  "dcri.quantity AS quantity_in_document,",
+                  "'customer_refusal' AS type_of_document",
+                  "",
+                  "FROM reports_abom.dbo.document_customer_refusal_item AS dcri",
+                  "",
+                  "UNION",
+                  "",
+                  "SELECT",
+                  "dsri.order_item_id AS document_id,",
+                  "dsri.amount AS document_price,",
+                  "dsri.created AS document_date,",
+                  "dsri.quantity AS quantity_in_document,",
+                  "'supplier_refusal' AS type_of_document",
+                  "",
+                  "FROM reports_abom.dbo.document_supplier_refusal_item AS dsri",
+                  "",
+                  "UNION",
+                  "",
+                  "SELECT",
+                  "dori.id AS dociment_id,",
+                  "dori.amount AS document_price,",
+                  "dori.created AS document_date,",
+                  "dori.quantity AS quantity_in_document,",
+                  "'order' AS type_of_document",
+                  "",
+                  "FROM reports_abom.dbo.document_order_item AS dori",
+                  ") AS doc",
+                  "ON dori.id = doc.document_id;</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "SELECT ",
+              "dor.id AS id,",
+              "dor.updated AS order_date,",
+              "doc.document_date AS date_document,",
+              "doc.type_of_document AS type_document,",
+              "std.id AS standard_id",
+              "",
+              "FROM reports_abom.dbo.document_order AS dor",
+              "",
+              "JOIN reports_abom.dbo.document_order_item AS dori",
+              "ON dor.id = dori.order_id",
+              "",
+              "JOIN reports_abom.dbo.contractor AS ct",
+              "ON dor.customer_contractor_id = ct.id",
+              "",
+              "JOIN reports_abom.dbo.contractor AS ct1",
+              "ON dor.supplier_contractor_id = ct1.id",
+              "",
+              "JOIN reports_abom.dbo.storage AS st",
+              "ON st.id = dor.customer_storage_id",
+              "",
+              "JOIN reports_abom.dbo.storage AS st1",
+              "ON st1.id = dor.supplier_storage_id",
+              "",
+              "LEFT JOIN reports_abom.dbo.standard AS std",
+              "ON std.id = dori.standard_id",
+              "",
+              "LEFT JOIN (SELECT",
+              "dsi.order_item_id AS document_id,",
+              "dsi.amount AS document_price,",
+              "dsi.created AS document_date,",
+              "dsi.quantity AS quantity_in_document,",
+              "'shipment' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_shipment_item AS dsi",
+              "",
+              "UNION",
+              "",
+              "SELECT",
+              "dcri.order_item_id AS document_id,",
+              "dcri.amount AS document_price,",
+              "dcri.created AS document_date,",
+              "dcri.quantity AS quantity_in_document,",
+              "'customer_refusal' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_customer_refusal_item AS dcri",
+              "",
+              "UNION",
+              "",
+              "SELECT",
+              "dsri.order_item_id AS document_id,",
+              "dsri.amount AS document_price,",
+              "dsri.created AS document_date,",
+              "dsri.quantity AS quantity_in_document,",
+              "'supplier_refusal' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_supplier_refusal_item AS dsri",
+              "",
+              "UNION",
+              "",
+              "SELECT",
+              "dori.id AS dociment_id,",
+              "dori.amount AS document_price,",
+              "dori.created AS document_date,",
+              "dori.quantity AS quantity_in_document,",
+              "'order' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_order_item AS dori",
+              ") AS doc",
+              "ON dori.id = doc.document_id;"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Заказы-продажи"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT ",
+              "dor.id AS id,",
+              "dor.updated AS order_date,",
+              "doc.document_date AS date_document,",
+              "doc.type_of_document AS type_document,",
+              "std.id AS standard_id",
+              "",
+              "FROM reports_abom.dbo.document_order AS dor",
+              "",
+              "JOIN reports_abom.dbo.document_order_item AS dori",
+              "ON dor.id = dori.order_id",
+              "",
+              "JOIN reports_abom.dbo.contractor AS ct",
+              "ON dor.customer_contractor_id = ct.id",
+              "",
+              "JOIN reports_abom.dbo.contractor AS ct1",
+              "ON dor.supplier_contractor_id = ct1.id",
+              "",
+              "JOIN reports_abom.dbo.storage AS st",
+              "ON st.id = dor.customer_storage_id",
+              "",
+              "JOIN reports_abom.dbo.storage AS st1",
+              "ON st1.id = dor.supplier_storage_id",
+              "",
+              "LEFT JOIN reports_abom.dbo.standard AS std",
+              "ON std.id = dori.standard_id",
+              "",
+              "LEFT JOIN (SELECT",
+              "dsi.order_item_id AS document_id,",
+              "dsi.amount AS document_price,",
+              "dsi.created AS document_date,",
+              "dsi.quantity AS quantity_in_document,",
+              "'shipment' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_shipment_item AS dsi",
+              "",
+              "UNION",
+              "",
+              "SELECT",
+              "dcri.order_item_id AS document_id,",
+              "dcri.amount AS document_price,",
+              "dcri.created AS document_date,",
+              "dcri.quantity AS quantity_in_document,",
+              "'customer_refusal' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_customer_refusal_item AS dcri",
+              "",
+              "UNION",
+              "",
+              "SELECT",
+              "dsri.order_item_id AS document_id,",
+              "dsri.amount AS document_price,",
+              "dsri.created AS document_date,",
+              "dsri.quantity AS quantity_in_document,",
+              "'supplier_refusal' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_supplier_refusal_item AS dsri",
+              "",
+              "UNION",
+              "",
+              "SELECT",
+              "dori.id AS dociment_id,",
+              "dori.amount AS document_price,",
+              "dori.created AS document_date,",
+              "dori.quantity AS quantity_in_document,",
+              "'order' AS type_of_document",
+              "",
+              "FROM reports_abom.dbo.document_order_item AS dori",
+              ") AS doc",
+              "ON dori.id = doc.document_id;</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "8959b53c-9418-49a9-b243-343fb0f9b18e",
+        "fromTable": "price_product",
+        "fromColumn": "standard_id",
+        "toTable": "cat_standard",
+        "toColumn": "Standard-product_standard_id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "e4f53b74-bc54-43d1-a81b-3d681f0d0f06",
+        "fromTable": "standard_sign_relation",
+        "fromColumn": "sign_id",
+        "toTable": "standard_sign",
+        "toColumn": "id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "1ab88a62-b065-4b30-947a-eccaca7c75af",
+        "fromTable": "price_product",
+        "fromColumn": "standard_id",
+        "toTable": "standard",
+        "toColumn": "id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "bca85ada-a2df-4111-a115-197f468bc108",
+        "fromTable": "standard_sign_relation",
+        "fromColumn": "standard_id",
+        "toTable": "standard",
+        "toColumn": "id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "77324008-cf5e-4158-bd8e-4c11d13eeb57",
+        "fromTable": "price_product",
+        "fromColumn": "contractor_id",
+        "toTable": "contractor",
+        "toColumn": "id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "5f54d1d9-084a-4fa5-a3c2-3615e827d03f",
+        "fromTable": "contractor",
+        "fromColumn": "contractor_subtype_id",
+        "toTable": "contractor_subtype",
+        "toColumn": "id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "0703af5e-c1de-4d58-99a2-0c712dc7d2de",
+        "fromTable": "contractor",
+        "fromColumn": "id",
+        "toTable": "Storage",
+        "toColumn": "id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "0b64d60b-ffb4-4c0e-a2a2-59c317fab058",
+        "fromTable": "Заказы-продажи",
+        "fromColumn": "standard_id",
+        "toTable": "cat_standard",
+        "toColumn": "Standard-product_standard_id",
+        "crossFilteringBehavior": "bothDirections"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "400"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
